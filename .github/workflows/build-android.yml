@@ -23,7 +23,11 @@ jobs:
       - name: Add Android platform
         run: npx cordova platform add android@14.0.1 --no-interactive
       - name: Add native Android printing plugin
-        run: npx cordova plugin add ./plugins/cordova-plugin-nativeprint --no-interactive
+        run: |
+          mkdir -p "$RUNNER_TEMP/src/cordova-plugin-nativeprint"
+          cp -r plugins/cordova-plugin-nativeprint/. "$RUNNER_TEMP/src/cordova-plugin-nativeprint/"
+          rm -rf plugins/cordova-plugin-nativeprint
+          npx cordova plugin add "$RUNNER_TEMP/src/cordova-plugin-nativeprint" --no-interactive
       - name: Build debug APK
         run: npx cordova build android --debug --no-interactive
       - name: Rename APK
